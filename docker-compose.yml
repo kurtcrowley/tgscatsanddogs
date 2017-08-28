@@ -8,7 +8,7 @@ services:
   vote:
     image: tgscloudevops.azurecr.io/vote
     ports:
-      - "80:80"
+      - "8181:8181"
     networks:
       - voting
 
