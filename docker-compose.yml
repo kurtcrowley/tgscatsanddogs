@@ -1,41 +1,36 @@
-version: "3"
+version: "2"
+
+networks: 
+  voting:
+      driver: overlay
 
 services:
   vote:
-    build: ./vote
-    command: python app.py
-    volumes:
-     - ./vote:/app
+    image: tgscloudevops.azurecr.io/vote
     ports:
       - "5000:80"
     networks:
-      - front-tier
-      - back-tier
+      - voting
 
   result:
-    build: ./result
-    command: nodemon --debug server.js
-    volumes:
-      - ./result:/app
+    image: tgscloudevops.azurecr.io/result
     ports:
       - "5001:80"
       - "5858:5858"
     networks:
-      - front-tier
-      - back-tier
+      - voting
 
   worker:
-    build:
-      context: ./worker
+    image: tgscloudevops.azurecr.io/worker
     networks:
-      - back-tier
+      - voting
 
   redis:
     image: redis:alpine
     container_name: redis
     ports: ["6379"]
     networks:
-      - back-tier
+      - voting
 
   db:
     image: postgres:9.4
@@ -43,11 +38,7 @@ services:
     volumes:
       - "db-data:/var/lib/postgresql/data"
     networks:
-      - back-tier
+      - voting
 
 volumes:
   db-data:
-
-networks:
-  front-tier:
-  back-tier:
