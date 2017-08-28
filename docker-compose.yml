@@ -8,14 +8,14 @@ services:
   vote:
     image: tgscloudevops.azurecr.io/vote
     ports:
-      - "5000:80"
+      - "80:80"
     networks:
       - voting
 
   result:
     image: tgscloudevops.azurecr.io/result
     ports:
-      - "5001:80"
+      - "8080:80"
       - "5858:5858"
     networks:
       - voting
