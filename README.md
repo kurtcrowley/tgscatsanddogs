@@ -10,7 +10,7 @@ Run in this directory:
 ```
 docker-compose up
 ```
-The app will be running at [http://localhost:5000](http://localhost:5000), and the results will be at [http://localhost:5001](http://localhost:5001).
+The app will be running at [http://localhost:8181](http://localhost:8181), and the results will be at [http://localhost:8080](http://localhost:8080).
 
 Alternately, if you want to run it on a [Docker Swarm](https://docs.docker.com/engine/swarm/), first make sure you have a swarm. If you don't, run:
 ```
@@ -28,7 +28,7 @@ Architecture
 
 * A Python webapp which lets you vote between two options
 * A Redis queue which collects new votes
-* A .NET worker which consumes votes and stores them in…
+* A Java worker which consumes votes and stores them in…
 * A Postgres database backed by a Docker volume
 * A Node.js webapp which shows the results of the voting in real time
 
