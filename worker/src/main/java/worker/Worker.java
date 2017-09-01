@@ -1,5 +1,6 @@
 package worker;
 
+/* kurt kicking off a ci/cd */
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import java.sql.*;
