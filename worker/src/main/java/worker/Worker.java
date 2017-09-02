@@ -24,8 +24,8 @@ class Worker {
         String vote = voteData.getString("vote");
 
         System.err.printf("Processing vote for '%s' by '%s'\n", vote, voterID);
-        statsd.event('processingVote', vote, alert_type='info');
-        statsd.histogram('vote.totalvotes', 1);
+        //statsd.event('processingVote', vote, alert_type='info');
+        statsd.histogram("vote.totalvotes", 1);
         updateVote(dbConn, voterID, vote);
       }
     } catch (SQLException e) {
@@ -62,7 +62,7 @@ class Worker {
         break;
       } catch (JedisConnectionException e) {
         System.err.println("Waiting for redis");
-        statsd.event('connectToRedis', System.err.println, alert_type='error');
+        //statsd.event('connectToRedis', System.err.println, alert_type='error');
         sleep(1000);
       }
     }
