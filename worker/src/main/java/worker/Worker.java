@@ -5,6 +5,9 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import java.sql.*;
 import org.json.JSONObject;
+import com.timgroup.statsd.ServiceCheck;
+import com.timgroup.statsd.StatsDClient;
+import com.timgroup.statsd.NonBlockingStatsDClient;
 
 class Worker {
   public static void main(String[] args) {
@@ -21,6 +24,8 @@ class Worker {
         String vote = voteData.getString("vote");
 
         System.err.printf("Processing vote for '%s' by '%s'\n", vote, voterID);
+        statsd.event('processingVote', vote, alert_type='info');
+        statsd.histogram('vote.totalvotes', 1);
         updateVote(dbConn, voterID, vote);
       }
     } catch (SQLException e) {
@@ -37,12 +42,14 @@ class Worker {
 
     try {
       insert.executeUpdate();
+      statsd.incrementCounter("vote.new");
     } catch (SQLException e) {
       PreparedStatement update = dbConn.prepareStatement(
         "UPDATE votes SET vote = ? WHERE id = ?");
       update.setString(1, vote);
       update.setString(2, voterID);
       update.executeUpdate();
+      statsd.incrementCounter("vote.changed");
     }
   }
 
@@ -55,6 +62,7 @@ class Worker {
         break;
       } catch (JedisConnectionException e) {
         System.err.println("Waiting for redis");
+        statsd.event('connectToRedis', System.err.println, alert_type='error');
         sleep(1000);
       }
     }
@@ -92,6 +100,14 @@ class Worker {
     System.err.println("Connected to db");
     return conn;
   }
+
+  //  add a statsd client 
+  private static final StatsDClient statsd = new NonBlockingStatsDClient(
+    "tgs.voting",                          /* prefix to any stats; may be null or empty string */
+    "localhost",                        /* common case: localhost */
+    8125,                                 /* port */
+    new String[] {"tag:value"}            /* Datadog extension: Constant tags, always applied */
+  );
 
   static void sleep(long duration) {
     try {
