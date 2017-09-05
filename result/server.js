@@ -90,9 +90,9 @@ app.get('/', function (req, res) {
 });
 
 server.listen(port, function () {
-  let start = Date.now();
+  //let start = Date.now();
   var port = server.address().port;
-  let duration = Date.now() - start;
-  appInsights.client.trackMetric("server startup time", duration);
+  //let duration = Date.now() - start;
+  //appInsights.client.trackMetric("server startup time", duration);
   console.log('App running on port ' + port);
 });
