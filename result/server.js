@@ -1,6 +1,6 @@
 const appInsights = require("applicationinsights");
 appInsights.setup("a7cd99db-0cd4-4939-b39c-98a1affa7920")
-    .setAutoDependencyCorrelation(false)
+    .setAutoDependencyCorrelation(true)
     .setAutoCollectRequests(true)
     .setAutoCollectPerformance(true)
     .setAutoCollectExceptions(true)
@@ -89,9 +89,6 @@ app.get('/', function (req, res) {
 });
 
 server.listen(port, function () {
-  let start = Date.now();
   var port = server.address().port;
-  let duration = Date.now() - start;
-  appInsights.client.trackMetric("server startup time", duration);
   console.log('App running on port ' + port);
 });
