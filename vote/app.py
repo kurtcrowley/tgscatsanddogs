@@ -7,7 +7,7 @@ import socket
 import random
 import json
 
-option_a = os.getenv('OPTION_A', "Birds")
+option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
 
@@ -32,7 +32,7 @@ def hello():
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
         redis.rpush('votes', data)
         tc = TelemetryClient('a7cd99db-0cd4-4939-b39c-98a1affa7920')
-        tc.track_event('New Vote for ' + vote)
+        tc.track_event('Received a new vote')
         tc.flush()
 
     resp = make_response(render_template(

@@ -56,6 +56,7 @@ function getVotes(client) {
     } else {
       var votes = collectVotesFromResult(result);
       io.sockets.emit("scores", JSON.stringify(votes));
+      appInsights.trackTrace("getting new votes");
     }
 
     setTimeout(function() {getVotes(client) }, 1000);
