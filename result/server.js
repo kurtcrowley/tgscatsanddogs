@@ -1,5 +1,11 @@
 const appInsights = require("applicationinsights");
 appInsights.setup("a7cd99db-0cd4-4939-b39c-98a1affa7920");
+    .setAutoDependencyCorrelation(false)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .start();
 appInsights.start();
 
 var express = require('express'),
