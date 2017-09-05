@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, make_response, g
 from redis import Redis
+from applicationinsights import TelemetryClient
+
 import os
 import socket
 import random
@@ -29,6 +31,9 @@ def hello():
         vote = request.form['vote']
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
         redis.rpush('votes', data)
+        tc = TelemetryClient('a7cd99db-0cd4-4939-b39c-98a1affa7920')
+        tc.track_event('New Vote for ' + vote)
+        tc.flush()
 
     resp = make_response(render_template(
         'index.html',
