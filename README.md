@@ -35,7 +35,8 @@ Architecture
 Running on Kubernetes / Minikube
 -----
 
-TBD
+Note: 
+
 
 Note
 ----
