@@ -1,4 +1,4 @@
-Example Voting App
+GPS Cats and Dogs! (or Pepsi / Coke or...)
 =========
 
 Getting started
@@ -32,6 +32,10 @@ Architecture
 * A Postgres database backed by a Docker volume
 * A Node.js webapp which shows the results of the voting in real time
 
+Running on Kubernetes / Minikube
+-----
+
+TBD
 
 Note
 ----
