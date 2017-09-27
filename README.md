@@ -37,7 +37,6 @@ Running on Kubernetes / Minikube
 
 Note: 
 
-
 Note
 ----
 
